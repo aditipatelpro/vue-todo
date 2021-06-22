@@ -1,56 +1,46 @@
-<template>
-  <v-app>
-    <v-app-bar
+<template lang="pug">
+  v-app(id="inspire")
+    v-navigation-drawer(
+      v-model="drawer"
       app
-      color="primary"
-      dark
-    >
-      <div class="d-flex align-center">
-        <v-img
-          alt="Vuetify Logo"
-          class="shrink mr-2"
-          contain
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
-          transition="scale-transition"
-          width="40"
-        />
+    )
+      v-list-item
+        v-list-item-content
+          v-list-item-title(class="text-h6") Simple Todo
 
-        <v-img
-          alt="Vuetify Name"
-          class="shrink mt-1 hidden-sm-and-down"
-          contain
-          min-width="100"
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"
-          width="100"
-        />
-      </div>
+      v-divider
 
-      <v-spacer></v-spacer>
+      v-list(
+        dense
+        nav
+      )
+        v-list-item(
+          v-for="item in items"
+          :key="item.title"
+          link
+        )
+          v-list-item-icon
+            v-icon {{ item.icon }}
 
-      <v-btn
-        href="https://github.com/vuetifyjs/vuetify/releases/latest"
-        target="_blank"
-        text
-      >
-        <span class="mr-2">Latest Release</span>
-        <v-icon>mdi-open-in-new</v-icon>
-      </v-btn>
-    </v-app-bar>
+          v-list-item-content
+            v-list-item-title {{ item.title }}
 
-    <v-main>
-      <router-view/>
-    </v-main>
-  </v-app>
+    v-app-bar(app)
+      v-app-bar-nav-icon(@click="drawer = !drawer")
+      v-toolbar-title Application
+
+    v-main
+      router-view
 </template>
 
-<script lang="ts">
-import Vue from 'vue';
-
-export default Vue.extend({
-  name: 'App',
-
+<script>
+export default {
   data: () => ({
-    //
+    drawer: null,
+    items: [
+      { title: 'Todo', icon: 'mdi-format-list-checks' },
+      { title: 'About', icon: 'mdi-help-box' },
+    ],
   }),
-});
+};
 </script>
