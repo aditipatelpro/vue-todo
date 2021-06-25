@@ -2,14 +2,22 @@
   div
     v-list(flat)
       div( v-for = "task in tasks" :key="task.id")
-        v-list-item
+        v-list-item(
+          :class="{'blue lighten-5': task.done}"
+          @click="handleTaskDone(task.id)"
+        )
           template(v-slot:default)
             v-list-item-action
               v-checkbox(:input-value="task.done")
 
             v-list-item-content
-              v-list-item-title {{task.title}}
+              v-list-item-title(:class="{'text-decoration-line-through': task.done}") {{task.title}}
               v-list-item-subtitle {{task.comment}}
+
+            v-list-item-action
+              v-btn(icon)
+                v-icon mdi-delete
+
         v-divider
 
 </template>
@@ -42,6 +50,13 @@ export default Vue.extend({
         },
       ],
     };
+  },
+
+  methods: {
+    handleTaskDone(id:string) {
+      const task = this.tasks.filter((x) => x.id === id)[0];
+      task.done = !task.done;
+    },
   },
 });
 </script>
