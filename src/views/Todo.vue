@@ -1,5 +1,16 @@
 <template lang="pug">
   div
+    v-text-field.pa-4(
+      append-icon="mdi-plus"
+      clearable
+      hide-details
+      label="Add Task"
+      outlined
+      v-model="newTaskTitle"
+      @click:append="handleAddTask"
+      @keyup.enter="handleAddTask"
+    )
+
     v-list(flat)
       div( v-for = "task in tasks" :key="task.id")
         v-list-item(
@@ -15,8 +26,8 @@
               v-list-item-subtitle {{task.comment}}
 
             v-list-item-action
-              v-btn(icon)
-                v-icon mdi-delete
+              v-btn(icon @click.prevent="handleTaskDelete(task.id)")
+                v-icon(color="primary") mdi-delete
 
         v-divider
 
@@ -29,21 +40,20 @@ export default Vue.extend({
   name: 'Home',
   data() {
     return {
+      newTaskTitle: '',
+
       tasks: [
         {
-          comment: 'Comment 1',
           done: false,
           id: 'id1',
           title: 'Task 1',
         },
         {
-          comment: 'Comment 2',
           done: false,
           id: 'id2',
           title: 'Task 2',
         },
         {
-          comment: 'Comment 3',
           done: true,
           id: 'id3',
           title: 'Task 3',
@@ -53,10 +63,26 @@ export default Vue.extend({
   },
 
   methods: {
+
+    handleAddTask() {
+      const newTask = {
+        done: false,
+        id: Date.now().toString(),
+        title: this.newTaskTitle,
+      };
+      this.tasks.push(newTask);
+      this.newTaskTitle = '';
+    },
+
+    handleTaskDelete(id:string) {
+      this.tasks = this.tasks.filter((x) => x.id !== id);
+    },
+
     handleTaskDone(id:string) {
       const task = this.tasks.filter((x) => x.id === id)[0];
       task.done = !task.done;
     },
+
   },
 });
 </script>

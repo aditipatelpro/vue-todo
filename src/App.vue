@@ -7,7 +7,7 @@
       v-list-item
         v-list-item-content
           v-list-item-title(class="text-h6") Simple Todo
-          v-list-item-subtitle Because we got todo!
+          v-list-item-subtitle Because you got todo!
 
       v-divider
 
